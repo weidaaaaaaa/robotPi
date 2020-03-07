@@ -24,8 +24,8 @@ outpulist = [bl_pwm, br_pwm, bl_1, bl_2, br_1, br_2, fl_pwm, fr_pwm, fl_1, fl_2,
 
 GPIO.setup(outpulist, GPIO.OUT, initial=GPIO.LOW)
 init_freq = 490
-go_dc = 10
-turn_dc = 20
+go_dc = 50
+turn_dc = 70
 stop_dc = 0
 pwm_bl = GPIO.PWM(bl_pwm, init_freq)
 pwm_br = GPIO.PWM(br_pwm, init_freq)
@@ -46,17 +46,20 @@ def gpio_controller(key):
         pwm_fr.ChangeDutyCycle(go_dc)
         GPIO.output(bl_1, GPIO.HIGH)
         GPIO.output(bl_2, GPIO.LOW)
-        GPIO.output(br_1, GPIO.HIGH)
-        GPIO.output(br_2, GPIO.LOW)
-        GPIO.output(fl_1, GPIO.HIGH)
-        GPIO.output(fl_2, GPIO.LOW)
-        GPIO.output(fr_1, GPIO.HIGH)
-        GPIO.output(fr_2, GPIO.LOW)
+        GPIO.output(br_2, GPIO.HIGH)
+        GPIO.output(br_1, GPIO.LOW)
+        GPIO.output(fl_2, GPIO.HIGH)
+        GPIO.output(fl_1, GPIO.LOW)
+        GPIO.output(fr_2, GPIO.HIGH)
+        GPIO.output(fr_1, GPIO.LOW)
 
     elif key == go.left:
         print('left')
         pwm_fr.ChangeDutyCycle(turn_dc)
         pwm_br.ChangeDutyCycle(turn_dc)
+        pwm_fl.ChangeDutyCycle(go_dc)
+        pwm_bl.ChangeDutyCycle(go_dc)
+
         # GPIO.output(bl_1, GPIO.HIGH)
         # GPIO.output(bl_2, GPIO.LOW)
         # GPIO.output(br_1, GPIO.HIGH)
@@ -70,6 +73,9 @@ def gpio_controller(key):
         print('right')
         pwm_fl.ChangeDutyCycle(turn_dc)
         pwm_bl.ChangeDutyCycle(turn_dc)
+        pwm_fr.ChangeDutyCycle(go_dc)
+        pwm_br.ChangeDutyCycle(go_dc)
+
         # GPIO.output(bl_1, GPIO.HIGH)
         # GPIO.output(bl_2, GPIO.LOW)
         # GPIO.output(br_1, GPIO.HIGH)
@@ -87,12 +93,12 @@ def gpio_controller(key):
         pwm_fr.ChangeDutyCycle(go_dc)
         GPIO.output(bl_2, GPIO.HIGH)
         GPIO.output(bl_1, GPIO.LOW)
-        GPIO.output(br_2, GPIO.HIGH)
-        GPIO.output(br_1, GPIO.LOW)
-        GPIO.output(fl_2, GPIO.HIGH)
-        GPIO.output(fl_1, GPIO.LOW)
-        GPIO.output(fr_2, GPIO.HIGH)
-        GPIO.output(fr_1, GPIO.LOW)
+        GPIO.output(br_1, GPIO.HIGH)
+        GPIO.output(br_2, GPIO.LOW)
+        GPIO.output(fl_1, GPIO.HIGH)
+        GPIO.output(fl_2, GPIO.LOW)
+        GPIO.output(fr_1, GPIO.HIGH)
+        GPIO.output(fr_2, GPIO.LOW)
 
     elif key == go.stop:
         print('stop')
