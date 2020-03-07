@@ -22,26 +22,28 @@ fr_2 = 1
 
 outpulist = [bl_pwm, br_pwm, bl_1, bl_2, br_1, br_2, fl_pwm, fr_pwm, fl_1, fl_2, fr_1, fr_2]
 
+GPIO.setup(outpulist, GPIO.OUT, initial=GPIO.LOW)
+init_freq = 490
+go_dc = 10
+turn_dc = 20
+stop_dc = 0
+pwm_bl = GPIO.PWM(bl_pwm, init_freq)
+pwm_br = GPIO.PWM(br_pwm, init_freq)
+pwm_fl = GPIO.PWM(fl_pwm, init_freq)
+pwm_fr = GPIO.PWM(fr_pwm, init_freq)
+pwm_bl.start(stop_dc)
+pwm_br.start(stop_dc)
+pwm_fl.start(stop_dc)
+pwm_fr.start(stop_dc)
+
 
 def gpio_controller(key):
-    GPIO.setup(outpulist, GPIO.OUT, initial=GPIO.LOW)
-    init_freq = 490
-    init_dc = 10
-    turn_dc = 20
-    stop_dc=0
-    pwm_bl = GPIO.PWM(bl_pwm, init_freq)
-    pwm_br = GPIO.PWM(br_pwm, init_freq)
-    pwm_fl = GPIO.PWM(fl_pwm, init_freq)
-    pwm_fr = GPIO.PWM(fr_pwm, init_freq)
-    pwm_bl.start(init_dc)
-    pwm_br.start(init_dc)
-    pwm_fl.start(init_dc)
-    pwm_fr.start(init_dc)
     if key == go.forward:
-        pwm_bl.ChangeDutyCycle(init_dc)
-        pwm_br.ChangeDutyCycle(init_dc)
-        pwm_fl.ChangeDutyCycle(init_dc)
-        pwm_fr.ChangeDutyCycle(init_dc)
+        print('forward')
+        pwm_bl.ChangeDutyCycle(go_dc)
+        pwm_br.ChangeDutyCycle(go_dc)
+        pwm_fl.ChangeDutyCycle(go_dc)
+        pwm_fr.ChangeDutyCycle(go_dc)
         GPIO.output(bl_1, GPIO.HIGH)
         GPIO.output(bl_2, GPIO.LOW)
         GPIO.output(br_1, GPIO.HIGH)
@@ -52,6 +54,7 @@ def gpio_controller(key):
         GPIO.output(fr_2, GPIO.LOW)
 
     elif key == go.left:
+        print('left')
         pwm_fr.ChangeDutyCycle(turn_dc)
         pwm_br.ChangeDutyCycle(turn_dc)
         # GPIO.output(bl_1, GPIO.HIGH)
@@ -64,6 +67,7 @@ def gpio_controller(key):
         # GPIO.output(fr_2, GPIO.LOW)
 
     elif key == go.right:
+        print('right')
         pwm_fl.ChangeDutyCycle(turn_dc)
         pwm_bl.ChangeDutyCycle(turn_dc)
         # GPIO.output(bl_1, GPIO.HIGH)
@@ -75,11 +79,12 @@ def gpio_controller(key):
         # GPIO.output(fr_1, GPIO.HIGH)
         # GPIO.output(fr_2, GPIO.LOW)
 
-    elif key==go.back:
-        pwm_bl.ChangeDutyCycle(init_dc)
-        pwm_br.ChangeDutyCycle(init_dc)
-        pwm_fl.ChangeDutyCycle(init_dc)
-        pwm_fr.ChangeDutyCycle(init_dc)
+    elif key == go.back:
+        print('back')
+        pwm_bl.ChangeDutyCycle(go_dc)
+        pwm_br.ChangeDutyCycle(go_dc)
+        pwm_fl.ChangeDutyCycle(go_dc)
+        pwm_fr.ChangeDutyCycle(go_dc)
         GPIO.output(bl_2, GPIO.HIGH)
         GPIO.output(bl_1, GPIO.LOW)
         GPIO.output(br_2, GPIO.HIGH)
@@ -89,7 +94,8 @@ def gpio_controller(key):
         GPIO.output(fr_2, GPIO.HIGH)
         GPIO.output(fr_1, GPIO.LOW)
 
-    elif key==go.stop:
+    elif key == go.stop:
+        print('stop')
         pwm_bl.ChangeDutyCycle(stop_dc)
         pwm_br.ChangeDutyCycle(stop_dc)
         pwm_fl.ChangeDutyCycle(stop_dc)
